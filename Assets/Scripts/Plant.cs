@@ -18,7 +18,7 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
 		fruiting = false;
         age = 0;
         daysSinceHarvest = 0;
-        
+
     }
 
 	public void kill() {
@@ -29,8 +29,8 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
 
 	}
 
-    /* 
-    * Harvest plant, absorbing its value as biomatter 
+    /*
+    * Harvest plant, absorbing its value as biomatter
     * and resetting its fruiting values
     */
     void Harvestable.harvest()
@@ -40,6 +40,7 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
             PlayerController.bioMatter += value;
             daysSinceHarvest = 0;
             fruiting = false;
+            sprite.color = Color.blue;
         }
         else
         {
@@ -71,40 +72,35 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
         else
         {
             wilted = true;
+            sprite.color = Color.black;
         }
 
         if (!wilted)
         {
             if (age >= stageLengths[(int)Stages.Matured])
             {
+                daysSinceHarvest++;
+
+                if (daysSinceHarvest >= daysToFruit)
+                {
+                    fruiting = true;
+                }
+
                 if (fruiting)
                 {
-                    sprite.color = Color.green;
-                }
-                else if (daysSinceHarvest >= daysToFruit)
-                {
+                    sprite.color = Color.red;
+                } else {
                     sprite.color = Color.blue;
-                    fruiting = true;
                 }
             }
             else if (age >= stageLengths[(int)Stages.Sprouted])
             {
-                if (daysSinceHarvest == daysToFruit)
-                {
-                    fruiting = true;
-                    sprite.color = Color.green;
-                }
+                sprite.color = Color.green;
             }
-            else
+            else if (age >= stageLengths[(int)Stages.Planted])
             {
-                sprite.color = Color.blue;
+                sprite.color = Color.grey;
             }
         }
-        else
-        {
-            sprite.color = Color.black;
-        }
-
-        daysSinceHarvest++;
     }
 }
