@@ -8,6 +8,7 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
     public float value;
     public int daysSinceHarvest;
     public SpriteRenderer sprite;
+    public int season;
     //public Sprite[] images = new Sprite[4];
 
     public int[] stageLengths = {0,1,2};

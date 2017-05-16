@@ -1,22 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Core : MonoBehaviour, Interactable  {
 
+  public int season;
 	// Use this for initialization
 	void Start () {
-		
+
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
     void Interactable.interact()
     {
-        PlayerController.hasSpringCore = true;
+        PlayerController.cores[season] = true;
         Destroy(this.gameObject);
     }
 }

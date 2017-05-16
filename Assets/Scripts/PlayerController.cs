@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 
 public class PlayerController : MonoBehaviour {
 
@@ -9,7 +8,7 @@ public class PlayerController : MonoBehaviour {
     public static float bioMatter;
 
     [Header("Movement")]
-    
+
     public float moveSpeed;
     public float speedBoost;
     private float baseSpeed;
@@ -18,23 +17,23 @@ public class PlayerController : MonoBehaviour {
     public bool interacting;
     public bool watering;
     public bool harvesting;
-    public static bool hasSpringCore;
+    public static bool[] cores;
     private Animator animator;
-    
+
     [Header("Testing")]
     private float interactDistance;
-    
+
 
     // Use this for initialization
     void Start()
     {
-        
+
         faceDirection = Vector2.down;
         interacting = false;
         bioMatter = 0f;
         interactDistance = 1f;
         watering = false;
-        hasSpringCore = false;
+        cores = new bool[4];
         animator = this.GetComponent<Animator>();
         animator.speed = 0.2f;
     }
@@ -75,7 +74,7 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+
         //Apply player movement
         moveCharacter();
 
@@ -92,15 +91,15 @@ public class PlayerController : MonoBehaviour {
             water();
         }
 
-        /* 
+        /*
          * Update the players facing direction
          */
         updateBearing();
-        
+
 
     }
 
-    /* 
+    /*
      * Update the players facing direction, favour up/down
      */
     void updateBearing()
@@ -135,7 +134,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     /*Get the input axis from the controller
-     * and apply it to a Vector 2, 
+     * and apply it to a Vector 2,
      * normalise to handle diagonal speedup
      * and set the players velocity.
      */
@@ -155,7 +154,7 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("IsWalking", false);
             animator.enabled = false;
         }
-            
+
 ;        rb.velocity = move;
     }
 
