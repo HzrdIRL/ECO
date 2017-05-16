@@ -3,7 +3,6 @@ using UnityEngine;
 public class Soil : MonoBehaviour, Interactable {
   public bool watered;
   public GameObject plantedObject;
-  public GameObject plantBlueprint;
   public int season;
   public bool activated;
 
@@ -13,6 +12,13 @@ public class Soil : MonoBehaviour, Interactable {
     plantedObject = null;
     activated = false;
   }
+
+    public void ageUp()
+    {
+        if(plantedObject != null)
+            plantedObject.GetComponent<Plant>().ageUp(watered);
+        watered = false;
+    }
 
 
   void FixedUpdate()
@@ -32,16 +38,23 @@ public class Soil : MonoBehaviour, Interactable {
   }
 
 
-  void Interactable.interact()
-  {
-    Plant plant = null;
-
-    if (plantedObject != null && (plant = plantedObject.GetComponent<Plant>()) != null)
+    void Interactable.interact()
     {
-      plant.GetComponentInChildren<Interactable>().interact();
-    } else if(this.activated) {
-      plantNewPlant(plantBlueprint);
+        Plant plant = null;
+
+        if (plantedObject != null && (plant = plantedObject.GetComponent<Plant>()) != null)
+        {
+            plant.GetComponentInChildren<Interactable>().interact();
+        }
     }
 
-  }
+    //Plant new flora in soil
+    public void cultivate(GameObject plantBlueprint)
+    {
+        if (this.activated && plantedObject == null)
+        {
+            plantNewPlant(plantBlueprint);
+            plantedObject.transform.parent = this.gameObject.transform;
+        }
+    }
 }

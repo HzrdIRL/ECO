@@ -61,16 +61,7 @@ public class GameManager : MonoBehaviour {
 		GameObject[] soils = GameObject.FindGameObjectsWithTag("soil");
         foreach (GameObject soil in soils)
         {
-            Soil soilScript = soil.GetComponent<Soil>();
-	        if (soilScript.plantedObject != null) 
-            {
-				SimplePlant plantScript = soilScript.plantedObject.GetComponent<SimplePlant>();
-				if(plantScript != null) {
-                    plantScript.ageUp(soilScript.watered);
-				} else {
-					Debug.Log("plant script not found");
-				}
-			}
+            soil.GetComponent<Soil>().ageUp();
 		}
 	}
  

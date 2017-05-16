@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour {
     [Header("Unity Refs")]
     public Rigidbody2D rb;
     public LayerMask interactableObjects;
-    public static float bioMatter;
+    public int bioMatter;
 
     [Header("Movement")]
 
@@ -18,7 +18,12 @@ public class PlayerController : MonoBehaviour {
     public bool watering;
     public bool harvesting;
     public static bool[] cores;
+    public bool usingTool;
     private Animator animator;
+    public int equippedTool;
+    public GameObject plantBlueprint;
+
+    private enum Tools { Hydrater, Harvester, Cultivator };
 
     [Header("Testing")]
     private float interactDistance;
@@ -27,15 +32,17 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
+        
         faceDirection = Vector2.down;
         interacting = false;
-        bioMatter = 0f;
+        bioMatter = 5;
         interactDistance = 1f;
         watering = false;
         cores = new bool[4];
         animator = this.GetComponent<Animator>();
         animator.speed = 0.2f;
+        equippedTool = 0;
+        usingTool = false;
     }
 
     private void Awake()
@@ -46,15 +53,15 @@ public class PlayerController : MonoBehaviour {
     void Update()
     {
         //Get player interaction key press
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             interacting = true;
         }
 
         //Get player watering key press
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            watering = true;
+            usingTool = true;
         }
 
         //Disable speedBoost modifier
@@ -66,8 +73,8 @@ public class PlayerController : MonoBehaviour {
             moveSpeed *= speedBoost;
 
         updateBearing();
-
-
+        
+        getEquippedTool();
     }
 
 
@@ -75,28 +82,58 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate()
     {
 
-        //Apply player movement
-        moveCharacter();
-
-        /*
-         * Interact with object in front of player
-         */
+        //Interact with object in front of player
         if (interacting)
         {
             interact();
         }
 
-        if (watering)
+        // Use the equipped tool
+        if (usingTool)
         {
-            water();
-        }
+            usingTool = false;
+            if(equippedTool == (int)Tools.Hydrater)
+                water();
 
-        /*
-         * Update the players facing direction
-         */
+            if (equippedTool == (int)Tools.Harvester)
+                harvest();
+
+            if (equippedTool == (int)Tools.Cultivator)
+                cultivate();
+        }
+         
+        //Update the players facing direction, for animation purposes
         updateBearing();
 
+        //Apply player movement
+        moveCharacter();
 
+    }
+
+    public void increaseBiomatter(int value)
+    {
+        bioMatter += value;
+    }
+
+    /*
+     * Switch tools: Watering, Harvesting, Planting
+     */
+     void getEquippedTool()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            equippedTool = (int)Tools.Hydrater;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            equippedTool = (int)Tools.Harvester;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            equippedTool = (int)Tools.Cultivator;
+        }
     }
 
     /*
@@ -107,28 +144,32 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKey(KeyCode.D) && !(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.W)))
         {
             faceDirection = Vector2.right;
-            animator.CrossFade("Astro_Walk_East", 0.0f);
+            if(Input.GetKeyDown(KeyCode.D))
+                animator.CrossFade("Astro_Walk_East", 0.0f);
             animator.SetInteger("Direction", 3);
         }
 
         if (Input.GetKey(KeyCode.A) && !(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)))
         {
             faceDirection = Vector2.left;
-            animator.CrossFade("Astro_Walk_West", 0.0f);
+            if (Input.GetKeyDown(KeyCode.A))
+                animator.CrossFade("Astro_Walk_West", 0.0f);
             animator.SetInteger("Direction", 1);
         }
 
         if (Input.GetKey(KeyCode.W) && !(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S)))
         {
             faceDirection = Vector2.up;
-            animator.CrossFade("Astro_Walk_North", 0.0f);
+            if (Input.GetKeyDown(KeyCode.W))
+                animator.CrossFade("Astro_Walk_North", 0.0f);
             animator.SetInteger("Direction", 2);
         }
 
         if (Input.GetKey(KeyCode.S) && !(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)))
         {
             faceDirection = Vector2.down;
-            animator.CrossFade("Astro_Walk_South", 0.0f);
+            if (Input.GetKeyDown(KeyCode.S))
+                animator.CrossFade("Astro_Walk_South", 0.0f);
             animator.SetInteger("Direction", 0);
         }
     }
@@ -177,7 +218,6 @@ public class PlayerController : MonoBehaviour {
      */
     void water()
     {
-        watering = false;
         Soil soil = null;
         RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
         if ((soil = hit.collider.GetComponentInChildren<Soil>()) != null)
@@ -189,10 +229,24 @@ public class PlayerController : MonoBehaviour {
      */
     void harvest()
     {
-        harvesting = false;
         Harvestable harvestableObject = null;
         RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
         if ((harvestableObject = hit.collider.GetComponentInChildren<Plant>()) != null)
+        {
             harvestableObject.harvest();
+            bioMatter += ((Plant)harvestableObject).value;
+        }
+            
+    }
+
+    void cultivate()
+    {
+        Soil soilObject = null;
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
+        if (((soilObject = hit.collider.GetComponentInChildren<Soil>()) != null) && bioMatter >= plantBlueprint.GetComponent<Plant>().cost)
+        {
+            soilObject.cultivate(plantBlueprint);
+            bioMatter -= plantBlueprint.GetComponent<Plant>().cost;
+        }
     }
 }
