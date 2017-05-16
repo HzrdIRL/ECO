@@ -3,6 +3,6 @@ public class SimplePlant : Plant {
     {
         stageLengths = new int[] {0,1,3};
         value = 10;
-        daysToFruit = 1;
+        daysToFruit = 2;
     }
 }
