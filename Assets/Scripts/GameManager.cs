@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour {
 	private int time;
 	private int day;
     private bool gameIsOver;
-	public GameObject aPlant;
 
 	void Awake() {
 		if (instance == null) {
@@ -57,27 +56,24 @@ public class GameManager : MonoBehaviour {
 	void cycleDay() {
 		Debug.Log("Times Up! Day is: " + day);
 		day++;
-    time = 0;
+        time = 0;
 
 		GameObject[] soils = GameObject.FindGameObjectsWithTag("soil");
-    foreach (GameObject soil in soils)
-    {
-      Soil soilScript = soil.GetComponent<Soil>();
-			if (soilScript.plant == null) {
-				soilScript.plantNewPlant(aPlant);
-      }
-      else
-      {
-				SimplePlant plantScript = soilScript.plant.GetComponent<SimplePlant>();
+        foreach (GameObject soil in soils)
+        {
+            Soil soilScript = soil.GetComponent<Soil>();
+	        if (soilScript.plantedObject != null) 
+            {
+				SimplePlant plantScript = soilScript.plantedObject.GetComponent<SimplePlant>();
 				if(plantScript != null) {
-					plantScript.ageUp(soilScript.watered);
+                    plantScript.ageUp(soilScript.watered);
 				} else {
 					Debug.Log("plant script not found");
 				}
 			}
 		}
 	}
-
+ 
 	void GameOver() {
 		Debug.Log("Game Over!");
 		gameIsOver = true;

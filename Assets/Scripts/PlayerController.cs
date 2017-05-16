@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour {
     public bool harvesting;
     public static bool hasSpringCore;
     private Animator animator;
-
+    
     [Header("Testing")]
     private float interactDistance;
     
@@ -74,6 +74,9 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate()
     {
         
+        //Apply player movement
+        moveCharacter();
+
         /*
          * Interact with object in front of player
          */
@@ -87,8 +90,11 @@ public class PlayerController : MonoBehaviour {
             water();
         }
 
-        //Apply player movement
-        moveCharacter();
+        /* 
+         * Update the players facing direction
+         */
+        updateBearing();
+        
 
     }
 

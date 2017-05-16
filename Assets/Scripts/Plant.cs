@@ -91,6 +91,7 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
             {
                 if (daysSinceHarvest == daysToFruit)
                 {
+                    fruiting = true;
                     sprite.color = Color.green;
                 }
             }
