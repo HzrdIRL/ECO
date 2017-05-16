@@ -19,7 +19,7 @@ public class Soil : MonoBehaviour, Interactable {
     }
 
     //Hyrdtae the plant, otherwise it will wilt
-    void water() {
+     public void water() {
 	    watered = true;
     }
 

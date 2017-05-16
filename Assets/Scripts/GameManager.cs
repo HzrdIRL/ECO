@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour {
             {
 				SimplePlant plantScript = soilScript.plantedObject.GetComponent<SimplePlant>();
 				if(plantScript != null) {
-					plantScript.ageUp();
+                    plantScript.ageUp(soilScript.watered);
 				} else {
 					Debug.Log("plant script not found");
 				}

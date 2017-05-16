@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class PlayerController : MonoBehaviour {
 
@@ -16,8 +17,10 @@ public class PlayerController : MonoBehaviour {
     private Vector2 faceDirection;
     public bool interacting;
     public bool watering;
+    public bool harvesting;
     public static bool hasSpringCore;
-
+    private Animator animator;
+    
     [Header("Testing")]
     private float interactDistance;
     
@@ -25,12 +28,15 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        
         faceDirection = Vector2.down;
         interacting = false;
         bioMatter = 0f;
         interactDistance = 1f;
         watering = false;
         hasSpringCore = false;
+        animator = this.GetComponent<Animator>();
+        animator.speed = 0.2f;
     }
 
     private void Awake()
@@ -59,6 +65,10 @@ public class PlayerController : MonoBehaviour {
         //Enable speedBoost modifier
         if (Input.GetKeyDown(KeyCode.LeftShift))
             moveSpeed *= speedBoost;
+
+        updateBearing();
+
+
     }
 
 
@@ -67,10 +77,7 @@ public class PlayerController : MonoBehaviour {
     {
         
         //Apply player movement
-        moveCharacter(rb);
-
-        //Update faceDirection;
-        updateBearing();
+        moveCharacter();
 
         /*
          * Interact with object in front of player
@@ -85,6 +92,10 @@ public class PlayerController : MonoBehaviour {
             water();
         }
 
+        /* 
+         * Update the players facing direction
+         */
+        updateBearing();
         
 
     }
@@ -94,24 +105,32 @@ public class PlayerController : MonoBehaviour {
      */
     void updateBearing()
     {
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && !(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.W)))
         {
             faceDirection = Vector2.right;
+            animator.CrossFade("Astro_Walk_East", 0.0f);
+            animator.SetInteger("Direction", 3);
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) && !(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)))
         {
             faceDirection = Vector2.left;
+            animator.CrossFade("Astro_Walk_West", 0.0f);
+            animator.SetInteger("Direction", 1);
         }
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) && !(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S)))
         {
             faceDirection = Vector2.up;
+            animator.CrossFade("Astro_Walk_North", 0.0f);
+            animator.SetInteger("Direction", 2);
         }
 
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) && !(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)))
         {
             faceDirection = Vector2.down;
+            animator.CrossFade("Astro_Walk_South", 0.0f);
+            animator.SetInteger("Direction", 0);
         }
     }
 
@@ -120,28 +139,61 @@ public class PlayerController : MonoBehaviour {
      * normalise to handle diagonal speedup
      * and set the players velocity.
      */
-    void moveCharacter(Rigidbody2D rb)
+    void moveCharacter()
     {
         Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
         move = move.normalized * Time.deltaTime * moveSpeed;
-        rb.velocity = move;
+
+        if (move.x != 0 || move.y != 0)
+        {
+            animator.SetBool("IsWalking", true);
+            animator.enabled = true;
+        }
+        else
+        {
+            animator.SetBool("IsWalking", false);
+            animator.enabled = false;
+        }
+            
+;        rb.velocity = move;
     }
 
     /*
      * Invoke the interact() function from an interactable object in front of the player
-     * E.G. PowerCore - pickup(), Plant - harvest(), WaterReclaimer - refillWaterTank()
+     * E.G. PowerCore - pickup(), Bed - sleep(), WaterReclaimer - refillWaterTank()
      */
     void interact()
     {
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
-        hit.collider.GetComponentInChildren<Interactable>().interact();
         interacting = false;
+        Interactable interactableObject = null;
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
+        if((interactableObject = hit.collider.GetComponentInChildren<Interactable>()) != null)
+            interactableObject.interact();
     }
 
+    /*
+     * Invoke the water() function from a Soil object in front of the player
+     * A plant will determine if it is watered by ageing up based on wether or not the soil is watered
+     */
     void water()
     {
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
-        hit.collider.GetComponentInChildren<Plant>().watered = true;
         watering = false;
+        Soil soil = null;
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
+        if ((soil = hit.collider.GetComponentInChildren<Soil>()) != null)
+            soil.water();
+    }
+
+    /*
+     * Invoke the harvest() function from a harvestable object in front of the player
+     */
+    void harvest()
+    {
+        harvesting = false;
+        Harvestable harvestableObject = null;
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
+        if ((harvestableObject = hit.collider.GetComponentInChildren<Plant>()) != null)
+            harvestableObject.harvest();
     }
 }
