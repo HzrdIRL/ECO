@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
 	private int time;
 	private int day;
     private bool gameIsOver;
+    public int dialogStage;
 
 	void Awake() {
 		if (instance == null) {
@@ -22,7 +23,8 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start() {
-			InvokeRepeating("passTime", 0.0f, 2.0f);
+		InvokeRepeating("passTime", 0.0f, 2.0f);
+        dialogStage = 0;
 	}
 
 	// Update is called once per frame
