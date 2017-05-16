@@ -4,7 +4,6 @@ using UnityEngine;
 public class Soil : MonoBehaviour, Interactable {
     public bool watered;
     public GameObject plantedObject;
-    public GameObject plantBlueprint;
 
     // Use this for initialization
     void Start () {
@@ -12,7 +11,14 @@ public class Soil : MonoBehaviour, Interactable {
         plantedObject = null;
     }
 
-    
+    public void ageUp()
+    {
+        if(plantedObject != null)
+            plantedObject.GetComponent<Plant>().ageUp(watered);
+        watered = false;
+    }
+
+
     void FixedUpdate()
     {
         
@@ -37,9 +43,15 @@ public class Soil : MonoBehaviour, Interactable {
         {
             plant.GetComponentInChildren<Interactable>().interact();
         }
-        else if(PlayerController.hasSpringCore)
+    }
+
+    //Plant new flora in soil
+    public void cultivate(GameObject plantBlueprint)
+    {
+        if (PlayerController.hasSpringCore && plantedObject == null)
         {
             plantNewPlant(plantBlueprint);
+            plantedObject.transform.parent = this.gameObject.transform;
         }
     }
 }

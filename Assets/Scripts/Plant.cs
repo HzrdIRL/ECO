@@ -5,7 +5,8 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
     public bool fruiting;
     public bool wilted;
     public int daysToFruit;
-    public float value;
+    public int value;
+    public int cost;
     public int daysSinceHarvest;
     public SpriteRenderer sprite;
     //public Sprite[] images = new Sprite[4];
@@ -37,7 +38,6 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
     {
         if (fruiting)
         {
-            PlayerController.bioMatter += value;
             daysSinceHarvest = 0;
             fruiting = false;
             sprite.color = Color.blue;
