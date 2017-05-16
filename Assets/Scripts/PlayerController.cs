@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        
         faceDirection = Vector2.down;
         interacting = false;
         bioMatter = 0f;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour {
         watering = false;
         hasSpringCore = false;
         animator = this.GetComponent<Animator>();
+        animator.speed = 0.2f;
     }
 
     private void Awake()
@@ -103,27 +105,31 @@ public class PlayerController : MonoBehaviour {
      */
     void updateBearing()
     {
-        if (rb.velocity.x > 0 && Math.Abs(rb.velocity.x) > Math.Abs(rb.velocity.y))
+        if (Input.GetKey(KeyCode.D) && !(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.W)))
         {
             faceDirection = Vector2.right;
+            animator.CrossFade("Astro_Walk_East", 0.0f);
             animator.SetInteger("Direction", 3);
         }
 
-        if (rb.velocity.x < 0 && Math.Abs(rb.velocity.x) > Math.Abs(rb.velocity.y))
+        if (Input.GetKey(KeyCode.A) && !(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)))
         {
             faceDirection = Vector2.left;
+            animator.CrossFade("Astro_Walk_West", 0.0f);
             animator.SetInteger("Direction", 1);
         }
 
-        if (rb.velocity.y > 0 && Math.Abs(rb.velocity.y) > Math.Abs(rb.velocity.x))
+        if (Input.GetKey(KeyCode.W) && !(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S)))
         {
             faceDirection = Vector2.up;
+            animator.CrossFade("Astro_Walk_North", 0.0f);
             animator.SetInteger("Direction", 2);
         }
 
-        if (rb.velocity.y < 0 && Math.Abs(rb.velocity.y) > Math.Abs(rb.velocity.x))
+        if (Input.GetKey(KeyCode.S) && !(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)))
         {
             faceDirection = Vector2.down;
+            animator.CrossFade("Astro_Walk_South", 0.0f);
             animator.SetInteger("Direction", 0);
         }
     }
