@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 
 public class PlayerController : MonoBehaviour {
 
@@ -9,7 +8,7 @@ public class PlayerController : MonoBehaviour {
     public int bioMatter;
 
     [Header("Movement")]
-    
+
     public float moveSpeed;
     public float speedBoost;
     private float baseSpeed;
@@ -18,27 +17,28 @@ public class PlayerController : MonoBehaviour {
     public bool interacting;
     public bool watering;
     public bool harvesting;
+    public static bool[] cores;
     public bool usingTool;
-    public static bool hasSpringCore;
     private Animator animator;
     public int equippedTool;
     public GameObject plantBlueprint;
 
     private enum Tools { Hydrater, Harvester, Cultivator };
-    
+
     [Header("Testing")]
     private float interactDistance;
-    
+
 
     // Use this for initialization
     void Start()
     {
+        
         faceDirection = Vector2.down;
         interacting = false;
         bioMatter = 5;
         interactDistance = 1f;
         watering = false;
-        hasSpringCore = false;
+        cores = new bool[4];
         animator = this.GetComponent<Animator>();
         animator.speed = 0.2f;
         equippedTool = 0;
@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    /* 
+    /*
      * Update the players facing direction, favour up/down
      */
     void updateBearing()
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     /*Get the input axis from the controller
-     * and apply it to a Vector 2, 
+     * and apply it to a Vector 2,
      * normalise to handle diagonal speedup
      * and set the players velocity.
      */
@@ -195,7 +195,7 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("IsWalking", false);
             animator.enabled = false;
         }
-            
+
 ;        rb.velocity = move;
     }
 
