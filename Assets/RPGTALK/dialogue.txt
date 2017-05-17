@@ -1,0 +1,17 @@
+/* Welcome conversation
+*
+*/
+Terminal: Good morning.
+Terminal: Please take your time getting up. You've been through a lot.
+Terminal: ...
+Terminal: Damaged systems include: Communications, Spring Pod, Summer Pod, Autumn Pod, Winter Pod.
+Terminal: Thank goodness we still have the Spring core. Quick, pick it up [E] and get it to the Spring Pod controller over on the left.
+
+/* You've got the spring core, Make your first plant!
+*
+*/
+Terminal: Great work! Now we can get cultivating.
+Terminal: What? ... Why? Well to complete our mission of course. There must have been more damage to you than I thought. We have to get all 4 seasons completed and harvest their biomatter for complete biodiversity.
+Terminal: Hopefully by then with enough biomatter we can get the communications operational to let Earth know the good news of ECO's success.
+Terminal: To get out the cultivating tool, press [3]. To use the currently equipped tool press [space].
+Terminal: The Spring Soil is on the ground to the left, Now that the core is in place you should be able to plant spring based fauna there. Try it now.
