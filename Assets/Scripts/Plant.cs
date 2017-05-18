@@ -35,17 +35,19 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
     * Harvest plant, absorbing its value as biomatter
     * and resetting its fruiting values
     */
-    void Harvestable.harvest()
+    bool Harvestable.harvest()
     {
         if (fruiting)
         {
             daysSinceHarvest = 0;
             fruiting = false;
             sprite.color = Color.blue;
+            return true;
         }
         else
         {
             Debug.Log("Not fruiting yet");
+            return false;
         }
     }
 
