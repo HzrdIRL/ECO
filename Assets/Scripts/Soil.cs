@@ -6,18 +6,20 @@ public class Soil : MonoBehaviour, Interactable {
   public int season;
   public bool activated;
 
-  // Use this for initialization
-  void Start () {
-    watered = true;
-    plantedObject = null;
-    activated = false;
-  }
+    // Use this for initialization
+    void Start () {
+    watered = false;
+        plantedObject = null;
+        activated = false;
+        this.GetComponent<SpriteRenderer>().color = Color.black;
+    }
 
     public void ageUp()
     {
         if(plantedObject != null)
             plantedObject.GetComponent<Plant>().ageUp(watered);
         watered = false;
+        this.GetComponent<SpriteRenderer>().color = Color.black;
     }
 
 
@@ -29,6 +31,7 @@ public class Soil : MonoBehaviour, Interactable {
   //Hyrdtae the plant, otherwise it will wilt
   public void water() {
     watered = true;
+        this.GetComponent<SpriteRenderer>().color = Color.yellow;
   }
 
   public void plantNewPlant(GameObject plantObject) {

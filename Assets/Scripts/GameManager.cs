@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour {
 	private int day;
     private bool gameIsOver;
     public int dialogStage;
+    public GameObject player;
+    public GameObject bed;
 
 	void Awake() {
 		if (instance == null) {
@@ -34,31 +36,43 @@ public class GameManager : MonoBehaviour {
 
 	void FixedUpdate () {
 		if(!gameIsOver) {
-			if (time >= 10) {
+			if (time >= 1440) {
 				cycleDay();
 			}
-			if(day >= 10) {
-				GameOver();
-			}
+			//if(day >= 10) {
+			//	GameOver();
+			//}
 		} else {
 			InitGame();
 		}
 	}
 
 	void InitGame() {
-		time = 0;
+		time = 540;
 		day = 0;
 		gameIsOver = false;
 	}
 
 	void passTime() {
-		time+=10;
+		time+=5;
 	}
 
-	void cycleDay() {
+    public int getHour()
+    {
+        return this.time/60;
+    }
+
+    public int getMinute()
+    {
+        return this.time%60;
+    }
+
+    public void cycleDay() {
 		Debug.Log("Times Up! Day is: " + day);
 		day++;
-        time = 0;
+      time = 540;
+      player.transform.position = new Vector3(bed.transform.position.x - 1, bed.transform.position.y, player.transform.position.z);
+      player.GetComponent<PlayerController>().energyLevel = 100;
 
 		GameObject[] soils = GameObject.FindGameObjectsWithTag("soil");
         foreach (GameObject soil in soils)

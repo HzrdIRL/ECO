@@ -15,3 +15,39 @@ Terminal: What? ... Why? Well to complete our mission of course. There must have
 Terminal: Hopefully by then with enough biomatter we can get the communications operational to let Earth know the good news of ECO's success.
 Terminal: To get out the cultivating tool, press [3]. To use the currently equipped tool press [space].
 Terminal: The Spring Soil is on the ground to the left, Now that the core is in place you should be able to plant spring based fauna there. Try it now.
+
+/* Planted!
+*
+*/
+Terminal: Don't forget to water the plants daily or they may wither and die!
+Terminal: Simply get out your watering tool [1] and use it! [space]
+Terminal: It will take a few days before the plant is ready to harvest. You can pass time by using the bed to the right.
+
+/* First Harvest!
+*
+*/
+Terminal: Now that you've harvested your first crop, you can use it's biomatter to make more seeds and increase your yield.
+Terminal: For now we only have Spring to plant in, but if you can venture out and find the other 3 cores we can acheive full biodiversity. Good luck!
+
+/* Resources
+*
+*/
+Terminal: In order to water more than Spring crops every day we will need new sources of water. We can only make 90 water per day via our pumps here at the base daily.
+Terminal: There are a lot of ice deposits spread around the surface outside. If you use the harvester on them I am sure you'll be able to bring back enough water to sustain the other seasons.
+Terminal: However the surface of Mars can be a harsh environment. Make sure your suit doesn't run out of fuel while you're outside, I'd have a hard time getting you back here.
+Terminal: There are readings of possible hostile lifeforms in some areas. Use your harvester to scare them off or they might damage your suit. If you stay out too late you might get caught during the coldest time of night, I'll remind you to come home if it is approaching.
+
+/* Summer core
+*
+*/
+Terminal: Summer Core! woot~
+
+/* Autumn core
+*
+*/
+Terminal: Autumn Core! woot~
+
+/* Winter core
+*
+*/
+Terminal: Winter Core! The set is complete! now we just need to harvest enough materials from all 4 seasons to complete our mission.

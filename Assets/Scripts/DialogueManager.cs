@@ -22,7 +22,7 @@ public class DialogueManager : MonoBehaviour {
         dialogue.NewTalk();
     }
 
-    public void firstCore()
+    public void firstCoreGot()
     {
         dialogue.lineToStart = 13;
         dialogue.lineToBreak = 17;
@@ -31,22 +31,22 @@ public class DialogueManager : MonoBehaviour {
 
     public void firstPlant()
     {
-        dialogue.lineToStart = 2;
-        dialogue.lineToBreak = 2;
+        dialogue.lineToStart = 22;
+        dialogue.lineToBreak = 24;
         dialogue.NewTalk();
     }
 
     public void firstWater()
     {
-        dialogue.lineToStart = 2;
-        dialogue.lineToBreak = 2;
+        dialogue.lineToStart = 29;
+        dialogue.lineToBreak = 30;
         dialogue.NewTalk();
     }
 
     public void firstHarvest()
     {
-        dialogue.lineToStart = 2;
-        dialogue.lineToBreak = 2;
+        dialogue.lineToStart = 35;
+        dialogue.lineToBreak = 38;
         dialogue.NewTalk();
     }
 }

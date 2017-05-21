@@ -18,9 +18,12 @@ public class Terminal : MonoBehaviour, Interactable {
         if (GameManager.instance.dialogStage == (int)DialogueStages.Start) {
             dialogue.welcome();
         } else if(GameManager.instance.dialogStage == (int)DialogueStages.ActivatedSpring) {
-            dialogue.firstCore();
+            dialogue.firstCoreGot();
         } else if (GameManager.instance.dialogStage == (int)DialogueStages.Planted) {
             dialogue.firstPlant();
+        } else if (GameManager.instance.dialogStage == (int)DialogueStages.Harvested)
+        {
+            dialogue.firstHarvest();
         }
     }
 }
