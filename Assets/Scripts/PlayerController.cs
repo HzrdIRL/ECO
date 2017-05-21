@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
@@ -7,6 +8,7 @@ public class PlayerController : MonoBehaviour {
     public LayerMask interactableObjects;
     public int bioMatter; //should be private
     public int waterLevel;
+    public int energyLevel;
     public GameObject plantBlueprint;
     public static bool[] cores;
     
@@ -27,6 +29,11 @@ public class PlayerController : MonoBehaviour {
     public int equippedTool;
     private LineRenderer line;
 
+    public int getEnergyLevel()
+    {
+        return energyLevel;
+    }
+
     private Animator animator;
 
     public enum Tools { Hydrater, Harvester, Cultivator };
@@ -44,6 +51,7 @@ public class PlayerController : MonoBehaviour {
         interacting = false;
         bioMatter = 5;
         waterLevel = 100;
+        energyLevel = 100;
         interactDistance = 0.5f;
         watering = false;
         cores = new bool[4];
@@ -252,12 +260,22 @@ public class PlayerController : MonoBehaviour {
             if ((soil = hit.collider.GetComponentInChildren<Soil>()) != null
                 && !soil.watered
                 && soil.activated
-                && soil.plantedObject != null)
+                && soil.plantedObject != null && getWaterLevel() >= 5)
             {
                 visualiseTool(Color.blue);
                 soil.water();
                 setWaterLevel(-5);
+                useEnergy(5);
             }
+        }
+    }
+
+    private void useEnergy(int v)
+    {
+        energyLevel -= 5;
+        if (energyLevel <= 0)
+        {
+            GameManager.instance.cycleDay();
         }
     }
 
@@ -275,6 +293,10 @@ public class PlayerController : MonoBehaviour {
             {
                 if (harvestableObject.harvest())
                 {
+                    if ((int)GameManager.instance.dialogStage == (int)DialogueStages.Planted)
+                    {
+                        GameManager.instance.dialogStage = (int)DialogueStages.Harvested;
+                    }
                     visualiseTool(Color.magenta);
                     setBioMatterLevel(((Plant)harvestableObject).value);
                 }
@@ -295,9 +317,14 @@ public class PlayerController : MonoBehaviour {
             && soilObject.activated
             && soilObject.plantedObject == null)
             {
+                if ((int)GameManager.instance.dialogStage < (int)DialogueStages.Planted)
+                {
+                    GameManager.instance.dialogStage = (int)DialogueStages.Planted;
+                }
                 visualiseTool(Color.green);
                 soilObject.cultivate(plantBlueprint);
-                setBioMatterLevel(-plantBlueprint.GetComponent<Plant>().cost); ;
+                setBioMatterLevel(-plantBlueprint.GetComponent<Plant>().cost);
+                useEnergy(5);
             }
         }
         
