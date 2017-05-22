@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public int energyLevel;
     public GameObject plantBlueprint;
     public static bool[] cores;
+    public GameObject toolJoint;
 
 
     [Header("Movement")]
@@ -40,7 +41,7 @@ public class PlayerController : MonoBehaviour
     public enum Tools { Hydrater, Harvester, Cultivator };
 
     [Header("Testing")]
-    private float interactDistance;
+    public float interactDistance;
 
 
     // Use this for initialization
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviour
         bioMatter = 5;
         waterLevel = 100;
         energyLevel = 100;
-        interactDistance = 0.5f;
+        interactDistance = 1f;
         watering = false;
         cores = new bool[4];
         animator = this.GetComponent<Animator>();
@@ -232,9 +233,12 @@ public class PlayerController : MonoBehaviour
     {
         interacting = false;
         Interactable interactableObject = null;
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
-        if ((interactableObject = hit.collider.GetComponentInChildren<Interactable>()) != null)
-            interactableObject.interact();
+        RaycastHit2D[] hits = Physics2D.RaycastAll(this.toolJoint.transform.position, faceDirection, interactDistance, interactableObjects);
+        foreach (RaycastHit2D hit in hits)
+        {
+            if ((interactableObject = hit.collider.GetComponentInChildren<Interactable>()) != null)
+                interactableObject.interact();
+        }
     }
 
     // Draw a line to represent the direction/distance of the equipped tool, when used.
@@ -254,7 +258,7 @@ public class PlayerController : MonoBehaviour
     void water()
     {
         Soil soil = null;
-        RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.position, faceDirection, interactDistance, interactableObjects);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(this.toolJoint.transform.position, faceDirection, interactDistance, interactableObjects);
 
         foreach (RaycastHit2D hit in hits)
         {
@@ -286,7 +290,7 @@ public class PlayerController : MonoBehaviour
     void harvest()
     {
         Harvestable harvestableObject = null;
-        RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.position, faceDirection, interactDistance, interactableObjects);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(this.toolJoint.transform.position, faceDirection, interactDistance, interactableObjects);
 
         foreach (RaycastHit2D hit in hits)
         {
