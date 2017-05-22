@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     [Header("Unity Refs")]
     public Rigidbody2D rb;
@@ -11,7 +12,7 @@ public class PlayerController : MonoBehaviour {
     public int energyLevel;
     public GameObject plantBlueprint;
     public static bool[] cores;
-    
+
 
     [Header("Movement")]
     public float moveSpeed;
@@ -23,7 +24,7 @@ public class PlayerController : MonoBehaviour {
     private bool interacting;
     private bool watering;
     private bool harvesting;
-    
+
     private bool usingTool;
     private float toolTimer;
     public int equippedTool;
@@ -106,7 +107,7 @@ public class PlayerController : MonoBehaviour {
             interact();
         }
 
-        if((Time.time - toolTimer) >= 0.1f)
+        if ((Time.time - toolTimer) >= 0.1f)
         {
             line.enabled = false;
         }
@@ -115,7 +116,7 @@ public class PlayerController : MonoBehaviour {
         if (usingTool)
         {
             usingTool = false;
-            if(equippedTool == (int)Tools.Hydrater)
+            if (equippedTool == (int)Tools.Hydrater)
                 water();
 
             if (equippedTool == (int)Tools.Harvester)
@@ -124,7 +125,7 @@ public class PlayerController : MonoBehaviour {
             if (equippedTool == (int)Tools.Cultivator)
                 cultivate();
         }
-         
+
         //Update the players facing direction, for animation purposes
         updateBearing();
 
@@ -217,10 +218,10 @@ public class PlayerController : MonoBehaviour {
 
         if (move.x == 0 && move.y == 0)
         {
-            animator.SetBool("IsWalking", false); 
+            animator.SetBool("IsWalking", false);
         }
 
-;        rb.velocity = move;
+; rb.velocity = move;
     }
 
     /*
@@ -232,7 +233,7 @@ public class PlayerController : MonoBehaviour {
         interacting = false;
         Interactable interactableObject = null;
         RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
-        if((interactableObject = hit.collider.GetComponentInChildren<Interactable>()) != null)
+        if ((interactableObject = hit.collider.GetComponentInChildren<Interactable>()) != null)
             interactableObject.interact();
     }
 
@@ -302,15 +303,15 @@ public class PlayerController : MonoBehaviour {
                 }
             }
         }
-            
+
     }
 
     void cultivate()
     {
         Soil soilObject = null;
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, faceDirection, interactDistance, interactableObjects);
-            //Physics2D.Raycast(transform.position, faceDirection, interactDistance, interactableObjects);
-        foreach(RaycastHit2D hit in hits)
+        //Physics2D.Raycast(transform.position, faceDirection, interactDistance, interactableObjects);
+        foreach (RaycastHit2D hit in hits)
         {
             if (((soilObject = hit.collider.GetComponentInChildren<Soil>()) != null)
             && bioMatter >= plantBlueprint.GetComponent<Plant>().cost
@@ -327,6 +328,6 @@ public class PlayerController : MonoBehaviour {
                 useEnergy(5);
             }
         }
-        
+
     }
 }
