@@ -1,36 +1,36 @@
 fileFormatVersion: 2
 guid: a6929ad3a949ff745b3f7e22447bb2ba
-timeCreated: 1495433814
+timeCreated: 1495434623
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: tilesetNew_0
-    21300002: tilesetNew_1
-    21300004: tilesetNew_2
-    21300006: tilesetNew_3
-    21300008: tilesetNew_4
-    21300010: tilesetNew_5
-    21300012: tilesetNew_6
-    21300014: tilesetNew_8
-    21300016: tilesetNew_9
-    21300018: tilesetNew_10
-    21300020: tilesetNew_11
-    21300022: tilesetNew_12
-    21300024: tilesetNew_13
-    21300026: tilesetNew_14
-    21300028: tilesetNew_15
-    21300030: tilesetNew_16
-    21300032: tilesetNew_17
-    21300034: tilesetNew_18
-    21300036: tilesetNew_19
-    21300038: tilesetNew_20
-    21300040: tilesetNew_21
-    21300042: tilesetNew_22
-    21300044: tilesetNew_23
-    21300046: tilesetNew_24
-    21300048: tilesetNew_25
-    21300050: tilesetNew_26
-    21300052: tilesetNew_27
+    21300000: Soil_Unwatered
+    21300002: Core
+    21300004: Machine_On
+    21300006: Machine_Off
+    21300008: Plant_Mature_1
+    21300010: Plant_Mature_2
+    21300012: Machine_BG
+    21300014: Machine_Cables
+    21300016: Wall_9
+    21300018: Soil_Watered
+    21300020: Plant_Seed
+    21300022: Plant_Sprout_1
+    21300024: Plant_Sprout_2
+    21300026: Floor_1
+    21300028: Floor_2
+    21300030: Wall_5
+    21300032: Wall_1
+    21300034: Floor_5
+    21300036: Wall_6
+    21300038: Wall_2
+    21300040: Floor_3
+    21300042: Wall_7
+    21300044: Wall_3
+    21300046: Floor_6
+    21300048: Wall_8
+    21300050: Wall_4
+    21300052: Floor_4
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -105,7 +105,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tilesetNew_0
+      name: Soil_Unwatered
       rect:
         serializedVersion: 2
         x: 0
@@ -118,7 +118,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_1
+      name: Core
       rect:
         serializedVersion: 2
         x: 96
@@ -131,7 +131,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_2
+      name: Machine_On
       rect:
         serializedVersion: 2
         x: 112
@@ -144,7 +144,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_3
+      name: Machine_Off
       rect:
         serializedVersion: 2
         x: 176
@@ -157,7 +157,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_4
+      name: Plant_Mature_1
       rect:
         serializedVersion: 2
         x: 80
@@ -170,7 +170,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_5
+      name: Plant_Mature_2
       rect:
         serializedVersion: 2
         x: 96
@@ -183,7 +183,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_6
+      name: Machine_BG
       rect:
         serializedVersion: 2
         x: 0
@@ -196,7 +196,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_8
+      name: Machine_Cables
       rect:
         serializedVersion: 2
         x: 67
@@ -209,7 +209,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_9
+      name: Wall_9
       rect:
         serializedVersion: 2
         x: 48
@@ -222,7 +222,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_10
+      name: Soil_Watered
       rect:
         serializedVersion: 2
         x: 16
@@ -235,7 +235,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_11
+      name: Plant_Seed
       rect:
         serializedVersion: 2
         x: 32
@@ -248,7 +248,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_12
+      name: Plant_Sprout_1
       rect:
         serializedVersion: 2
         x: 48
@@ -261,7 +261,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_13
+      name: Plant_Sprout_2
       rect:
         serializedVersion: 2
         x: 64
@@ -274,7 +274,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_14
+      name: Floor_1
       rect:
         serializedVersion: 2
         x: 0
@@ -287,7 +287,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_15
+      name: Floor_2
       rect:
         serializedVersion: 2
         x: 0
@@ -300,7 +300,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_16
+      name: Wall_5
       rect:
         serializedVersion: 2
         x: 16
@@ -313,7 +313,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_17
+      name: Wall_1
       rect:
         serializedVersion: 2
         x: 16
@@ -326,7 +326,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_18
+      name: Floor_5
       rect:
         serializedVersion: 2
         x: 16
@@ -339,7 +339,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_19
+      name: Wall_6
       rect:
         serializedVersion: 2
         x: 32
@@ -352,7 +352,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_20
+      name: Wall_2
       rect:
         serializedVersion: 2
         x: 32
@@ -365,7 +365,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_21
+      name: Floor_3
       rect:
         serializedVersion: 2
         x: 32
@@ -378,7 +378,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_22
+      name: Wall_7
       rect:
         serializedVersion: 2
         x: 48
@@ -391,7 +391,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_23
+      name: Wall_3
       rect:
         serializedVersion: 2
         x: 48
@@ -404,7 +404,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_24
+      name: Floor_6
       rect:
         serializedVersion: 2
         x: 48
@@ -417,7 +417,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_25
+      name: Wall_8
       rect:
         serializedVersion: 2
         x: 64
@@ -430,7 +430,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_26
+      name: Wall_4
       rect:
         serializedVersion: 2
         x: 64
@@ -443,7 +443,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: tilesetNew_27
+      name: Floor_4
       rect:
         serializedVersion: 2
         x: 64
