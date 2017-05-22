@@ -317,6 +317,7 @@ public class PlayerController : MonoBehaviour {
             && soilObject.activated
             && soilObject.plantedObject == null)
             {
+                Debug.Log("cultivating");
                 if ((int)GameManager.instance.dialogStage < (int)DialogueStages.Planted)
                 {
                     GameManager.instance.dialogStage = (int)DialogueStages.Planted;
@@ -325,6 +326,8 @@ public class PlayerController : MonoBehaviour {
                 soilObject.cultivate(plantBlueprint);
                 setBioMatterLevel(-plantBlueprint.GetComponent<Plant>().cost);
                 useEnergy(5);
+            } else {
+                Debug.Log("failed");
             }
         }
         
