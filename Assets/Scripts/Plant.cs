@@ -42,13 +42,18 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable
     * Harvest plant, absorbing its value as biomatter
     * and resetting its fruiting values
     */
-    bool Harvestable.harvest()
+    int Harvestable.harvest()
+    {
+        daysSinceHarvest = 0;
+        fruiting = false;
+        sprite.sprite = spriteSapling;
+        return this.value;
+    }
+
+    bool Harvestable.harvestable()
     {
         if (fruiting)
         {
-            daysSinceHarvest = 0;
-            fruiting = false;
-            sprite.sprite = spriteSapling;
             return true;
         }
         else

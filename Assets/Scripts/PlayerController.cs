@@ -289,22 +289,47 @@ public class PlayerController : MonoBehaviour
      */
     void harvest()
     {
-        Harvestable harvestableObject = null;
+        GameObject harvestableObject = null;
         RaycastHit2D[] hits = Physics2D.RaycastAll(this.toolJoint.transform.position, faceDirection, interactDistance, interactableObjects);
 
         foreach (RaycastHit2D hit in hits)
         {
-            if ((harvestableObject = hit.collider.GetComponentInChildren<Harvestable>()) != null)
+            if ((harvestableObject = hit.collider.gameObject) != null)
             {
-                if (harvestableObject.harvest())
+                Debug.Log("hit");
+                if ((harvestableObject.GetComponent<Harvestable>()).harvestable())
                 {
-                    if ((int)GameManager.instance.dialogStage == (int)DialogueStages.Planted)
-                    {
-                        GameManager.instance.dialogStage = (int)DialogueStages.Harvested;
-                    }
+                    Debug.Log("harvestable");
                     visualiseTool(Color.magenta);
-                    setBioMatterLevel(((Plant)harvestableObject).value);
+                    Plant plant;
+                    Ice ice;
+                    Minerals minerals;
+                    if ((plant = harvestableObject.GetComponent<Plant>()) != null)
+                    {
+                        if ((int)GameManager.instance.dialogStage == (int)DialogueStages.Planted)
+                        {
+                            GameManager.instance.dialogStage = (int)DialogueStages.Harvested;
+                        }
+                        setBioMatterLevel(((Harvestable)plant).harvest());
+                        Debug.Log("Plant harvested");
+                    }
+                    else if ((ice = harvestableObject.GetComponent<Ice>()) != null)
+                    {
+                        setWaterLevel(((Harvestable)ice).harvest());
+                        Debug.Log("Ice harvested");
+                    }
+                    else if ((minerals = harvestableObject.GetComponent<Minerals>()) != null)
+                    {
+                        energyLevel += ((Harvestable)minerals).harvest();
+                        Debug.Log("Mineral harvested");
+                    } else
+                    {
+                        Debug.Log("not harvested");
+                    }
                 }
+            } else
+            {
+                Debug.Log("not harvested");
             }
         }
 
