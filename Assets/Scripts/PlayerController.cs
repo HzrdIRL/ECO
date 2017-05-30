@@ -297,14 +297,14 @@ public class PlayerController : MonoBehaviour
             if ((harvestableObject = hit.collider.gameObject) != null)
             {
                 Debug.Log("hit");
-                if ((harvestableObject.GetComponent<Harvestable>()).harvestable())
+                if ((harvestableObject.GetComponentInChildren<Harvestable>()).harvestable())
                 {
                     Debug.Log("harvestable");
                     visualiseTool(Color.magenta);
                     Plant plant;
                     Ice ice;
                     Minerals minerals;
-                    if ((plant = harvestableObject.GetComponent<Plant>()) != null)
+                    if ((plant = harvestableObject.GetComponentInChildren<Plant>()) != null)
                     {
                         if ((int)GameManager.instance.dialogStage == (int)DialogueStages.Planted)
                         {
@@ -313,12 +313,12 @@ public class PlayerController : MonoBehaviour
                         setBioMatterLevel(((Harvestable)plant).harvest());
                         Debug.Log("Plant harvested");
                     }
-                    else if ((ice = harvestableObject.GetComponent<Ice>()) != null)
+					else if ((ice = harvestableObject.GetComponentInChildren<Ice>()) != null)
                     {
                         setWaterLevel(((Harvestable)ice).harvest());
                         Debug.Log("Ice harvested");
                     }
-                    else if ((minerals = harvestableObject.GetComponent<Minerals>()) != null)
+					else if ((minerals = harvestableObject.GetComponentInChildren<Minerals>()) != null)
                     {
                         energyLevel += ((Harvestable)minerals).harvest();
                         Debug.Log("Mineral harvested");

@@ -10,6 +10,7 @@ public class Machine : MonoBehaviour, Interactable
     public Color seasonColor;
     private bool powering, powered;
     public GameObject core;
+	public GameObject coreJoint;
 
     // Use this for initialization
     void Start()
@@ -31,8 +32,11 @@ public class Machine : MonoBehaviour, Interactable
         {
             GameObject[] soils;
             this.activated = true;
-            Instantiate(core, new Vector3(this.transform.position.x+4, this.transform.position.y+1, this.transform.position.z), this.transform.rotation);
-            this.GetComponentInChildren<SpriteRenderer>().color = Color.green;
+			core = Instantiate(core, coreJoint.transform.position, coreJoint.transform.rotation);
+			SpriteRenderer coreSprite = core.GetComponent<SpriteRenderer> ();
+			core.GetComponent<BoxCollider2D>().enabled = false;
+			coreSprite.color = seasonColor;
+			coreSprite.sortingOrder = 2;
             machineBGSprite.color = seasonColor;
 
             if ((soils = GameObject.FindGameObjectsWithTag("soil")).Length != 0)
