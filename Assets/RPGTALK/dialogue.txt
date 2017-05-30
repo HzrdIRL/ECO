@@ -51,3 +51,8 @@ Terminal: Autumn Core! woot~
 *
 */
 Terminal: Winter Core! The set is complete! now we just need to harvest enough materials from all 4 seasons to complete our mission.
+
+/* Insufficient materials
+*
+*/
+Terminal: There is insufficient materials to withdraw at this time.

@@ -9,8 +9,9 @@ public class GameManager : MonoBehaviour {
     public int dialogStage;
     public GameObject player;
     public GameObject bed;
+    public DialogueManager dialogue;
 
-	void Awake() {
+    void Awake() {
 		if (instance == null) {
 			instance = this;
 		}
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour {
 
 	void Start() {
 		InvokeRepeating("passTime", 0.0f, 2.0f);
+        this.dialogue = this.GetComponent<DialogueManager>();
         dialogStage = 0;
 	}
 

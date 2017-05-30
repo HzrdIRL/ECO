@@ -278,7 +278,7 @@ public class PlayerController : MonoBehaviour
                 visualiseTool(Color.blue);
                 soil.water();
                 setWaterLevel(-5);
-                useEnergy(5);
+                //useEnergy(5);
             }
         }
     }
@@ -346,6 +346,7 @@ public class PlayerController : MonoBehaviour
     void cultivate()
     {
         Soil soilObject = null;
+        BioMatterHub reclaimerObject = null;
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, faceDirection, interactDistance, interactableObjects);
         //Physics2D.Raycast(transform.position, faceDirection, interactDistance, interactableObjects);
         foreach (RaycastHit2D hit in hits)
@@ -364,6 +365,10 @@ public class PlayerController : MonoBehaviour
                 soilObject.cultivate(plantBlueprint);
                 setBioMatterLevel(-plantBlueprint.GetComponent<Plant>().cost);
                 useEnergy(5);
+            } else if((reclaimerObject = hit.collider.GetComponentInChildren<BioMatterHub>()) != null
+                && bioMatter >= 10) {
+                reclaimerObject.deposit(10);
+                this.bioMatter -= 10;
             } else {
                 Debug.Log("failed");
             }

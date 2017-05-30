@@ -18,12 +18,12 @@ public class WaterReclaimer : MonoBehaviour, Interactable {
     void Interactable.interact()
     {
         int waterLevel;
-        if((waterLevel = player.GetComponent<PlayerController>().getWaterLevel()) <= 900)
+        if((waterLevel = player.GetComponent<PlayerController>().getWaterLevel()) <= 90)
         {
-            player.GetComponent<PlayerController>().setWaterLevel(100);
+            player.GetComponent<PlayerController>().setWaterLevel(10);
         } else
         {
-            player.GetComponent<PlayerController>().setWaterLevel(1000 - waterLevel);
+            player.GetComponent<PlayerController>().setWaterLevel(100 - waterLevel);
         }
     }
 }

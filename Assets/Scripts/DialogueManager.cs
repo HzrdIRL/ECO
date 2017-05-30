@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,13 @@ public class DialogueManager : MonoBehaviour {
     {
         dialogue.lineToStart = 4;
         dialogue.lineToBreak = 8;
+        dialogue.NewTalk();
+    }
+
+    public void insufficient()
+    {
+        dialogue.lineToStart = 58;
+        dialogue.lineToBreak = 58;
         dialogue.NewTalk();
     }
 
