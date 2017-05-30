@@ -29,19 +29,19 @@ public class HUDManager : MonoBehaviour {
         waterBar.localScale = new Vector3(player.getWaterLevel()/100f, waterBar.localScale.y, waterBar.localScale.z);
         if(player.getEquippedTool().Equals("Harvester"))
         {
-            harvesterImage.color = Color.green;
+            harvesterImage.color = Color.white;
             hydraterImage.color = Color.grey;
             cultivatorImage.color = Color.grey;
         } else if(player.getEquippedTool().Equals("Hydrater"))
         {
             harvesterImage.color = Color.grey;
-            hydraterImage.color = Color.green;
+            hydraterImage.color = Color.white;
             cultivatorImage.color = Color.grey;
         } else if (player.getEquippedTool().Equals("Cultivator"))
         {
             harvesterImage.color = Color.grey;
             hydraterImage.color = Color.grey;
-            cultivatorImage.color = Color.green;
+            cultivatorImage.color = Color.white;
         }
         equippedTool.text = player.getEquippedTool();
         time.text = GameManager.instance.getHour().ToString("00") + ":" + GameManager.instance.getMinute().ToString("00");
