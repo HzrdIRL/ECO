@@ -57,4 +57,11 @@ public class DialogueManager : MonoBehaviour {
         dialogue.lineToBreak = 38;
         dialogue.NewTalk();
     }
+
+    internal void endGame()
+    {
+        dialogue.lineToStart = 63;
+        dialogue.lineToBreak = 63;
+        dialogue.NewTalk();
+    }
 }

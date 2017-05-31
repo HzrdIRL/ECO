@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     public GameObject player;
     public GameObject bed;
     public DialogueManager dialogue;
+    public GameObject SummerCore, AutumnCore, WinterCore;
 
     void Awake() {
 		if (instance == null) {
@@ -27,7 +28,6 @@ public class GameManager : MonoBehaviour {
 
 	void Start() {
 		InvokeRepeating("passTime", 0.0f, 2.0f);
-        this.dialogue = this.GetComponent<DialogueManager>();
         dialogStage = 0;
 	}
 
@@ -70,18 +70,41 @@ public class GameManager : MonoBehaviour {
     }
 
     public void cycleDay() {
-		Debug.Log("Times Up! Day is: " + day);
-		day++;
-      time = 540;
-      player.transform.position = new Vector3(bed.transform.position.x - 1, bed.transform.position.y, player.transform.position.z);
-      player.GetComponent<PlayerController>().energyLevel = 100;
+        Debug.Log("Times Up! Day is: " + day);
+        day++;
+        time = 540;
+        player.transform.position = new Vector3(bed.transform.position.x - 1, bed.transform.position.y, player.transform.position.z);
+        player.GetComponent<PlayerController>().energyLevel = 100;
 
-		GameObject[] soils = GameObject.FindGameObjectsWithTag("soil");
+        GameObject[] soils = GameObject.FindGameObjectsWithTag("soil");
         foreach (GameObject soil in soils)
         {
             soil.GetComponent<Soil>().ageUp();
-		}
-	}
+        }
+        if (dialogStage == (int)DialogueStages.Harvested)
+        {
+            if (SummerCore != null)
+            {
+                SummerCore.SetActive(true);
+            }
+        }
+        if (dialogStage == (int)DialogueStages.ActivatedSummer)
+        {
+            GameObject core = GameObject.FindGameObjectWithTag("AutumnCore");
+            if (AutumnCore != null)
+            {
+                AutumnCore.SetActive(true);
+            }
+        }
+        if (dialogStage == (int)DialogueStages.ActivatedAutumn)
+        {
+            GameObject core = GameObject.FindGameObjectWithTag("WinterCore");
+            if (WinterCore != null)
+            {
+                WinterCore.SetActive(true);
+            }
+        }
+    }
  
 	void GameOver() {
 		Debug.Log("Game Over!");

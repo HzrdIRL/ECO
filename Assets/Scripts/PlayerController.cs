@@ -275,6 +275,10 @@ public class PlayerController : MonoBehaviour
                 && soil.activated
                 && soil.plantedObject != null && getWaterLevel() >= 5)
             {
+                if ((int)GameManager.instance.dialogStage == (int)DialogueStages.Planted)
+                {
+                    GameManager.instance.dialogStage = (int)DialogueStages.Watered;
+                }
                 visualiseTool(Color.blue);
                 soil.water();
                 setWaterLevel(-5);
@@ -314,7 +318,7 @@ public class PlayerController : MonoBehaviour
                     Minerals minerals;
                     if ((plant = harvestableObject.GetComponentInChildren<Plant>()) != null && this.bioMatter <= 90)
                     {
-                        if ((int)GameManager.instance.dialogStage == (int)DialogueStages.Planted)
+                        if ((int)GameManager.instance.dialogStage == (int)DialogueStages.Watered)
                         {
                             GameManager.instance.dialogStage = (int)DialogueStages.Harvested;
                         }

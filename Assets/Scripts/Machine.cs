@@ -38,6 +38,7 @@ public class Machine : MonoBehaviour, Interactable
 			coreSprite.color = seasonColor;
 			coreSprite.sortingOrder = 2;
             machineBGSprite.color = seasonColor;
+            GameManager.instance.dialogStage++;
 
             if ((soils = GameObject.FindGameObjectsWithTag("soil")).Length != 0)
             {

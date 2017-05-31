@@ -29,7 +29,6 @@ public class Core : MonoBehaviour, Interactable  {
     void Interactable.interact()
     {
         PlayerController.cores[season] = true;
-        GameManager.instance.dialogStage++;
 		Destroy(this.gameObject);
     }
 }
