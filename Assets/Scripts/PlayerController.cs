@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
         line.enabled = false;
         faceDirection = Vector2.down;
         interacting = false;
-        bioMatter = 5;
+        bioMatter = 10;
         waterLevel = 100;
         energyLevel = 100;
         interactDistance = 1f;
@@ -312,7 +312,7 @@ public class PlayerController : MonoBehaviour
                     Plant plant;
                     Ice ice;
                     Minerals minerals;
-                    if ((plant = harvestableObject.GetComponentInChildren<Plant>()) != null)
+                    if ((plant = harvestableObject.GetComponentInChildren<Plant>()) != null && this.bioMatter <= 90)
                     {
                         if ((int)GameManager.instance.dialogStage == (int)DialogueStages.Planted)
                         {

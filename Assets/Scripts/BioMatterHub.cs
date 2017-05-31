@@ -27,7 +27,7 @@ public class BioMatterHub : MonoBehaviour, Interactable {
 
     // Use this for initialization
     void Start () {
-        this.bioMatter = 100;
+        this.bioMatter = 10;
 	}
 	
 	// Update is called once per frame
