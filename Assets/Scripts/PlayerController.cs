@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public GameObject plantBlueprint;
     public static bool[] cores;
     public GameObject toolJoint;
+    public AudioClip[] audioClips;
+    public AudioSource audio;
 
 
     [Header("Movement")]
@@ -168,16 +170,19 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             equippedTool = (int)Tools.Hydrater;
+            audio.clip = audioClips[0];
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             equippedTool = (int)Tools.Harvester;
+            audio.clip = audioClips[1];
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             equippedTool = (int)Tools.Cultivator;
+            audio.clip = audioClips[2];
         }
     }
 
@@ -222,7 +227,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsWalking", false);
         }
 
-; rb.velocity = move;
+        rb.velocity = move;
     }
 
     /*
@@ -237,13 +242,16 @@ public class PlayerController : MonoBehaviour
         foreach (RaycastHit2D hit in hits)
         {
             if ((interactableObject = hit.collider.GetComponentInChildren<Interactable>()) != null)
+            {
                 interactableObject.interact();
+            }
         }
     }
 
     // Draw a line to represent the direction/distance of the equipped tool, when used.
     void visualiseTool(Color col)
     {
+        audio.Play();
         line.enabled = true;
         line.SetPosition(1, faceDirection * interactDistance);
         line.startColor = col;
