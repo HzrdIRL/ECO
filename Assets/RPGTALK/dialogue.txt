@@ -6,7 +6,7 @@ Terminal: Please take your time getting up. You've been through a lot.
 Terminal: ...
 Terminal: Damaged systems include: Communications, Spring Pod, Summer Pod, Autumn Pod, Winter Pod.
 Terminal: Thank goodness we still have the Spring core. Quick, pick it up [E] and get it to the Spring Pod controller over on the left.
-
+Terminal: If you get stuck press [T] to use your communicator.
 /* You've got the spring core, Make your first plant!
 *
 */
@@ -19,15 +19,17 @@ Terminal: The Spring Soil is on the ground to the left, Now that the core is in 
 /* Planted!
 *
 */
-Terminal: Don't forget to water the plants daily or they may wither and die!
-Terminal: Simply get out your watering tool [1] and use it! [space]
+Terminal: Don't forget to water the plants daily or they may wither and die! 
+Terminal: Simply get out your watering tool [1] and use it! [space]. You can retrieve more water into your backpack with the water reclaimer over on the left [E].
 Terminal: It will take a few days before the plant is ready to harvest. You can pass time by using the bed to the right.
 
 /* First Harvest!
 *
 */
-Terminal: Now that you've harvested your first crop, you can use it's biomatter to make more seeds and increase your yield.
-Terminal: For now we only have Spring to plant in, but if you can venture out and find the other 3 cores we can acheive full biodiversity. Good luck!
+Terminal: Now that you've harvested your first crop, you can use it's biomatter to make more seeds and increase your yield. You can deposit the Biomatter you harvested into the BioMatterHub to the left using the cultivator.
+Terminal: For now we only have Spring to plant in, but if you can find the other 3 cores we can acheive full biodiversity and plant in every pod.
+Terminal: We will need to stockpile Biomatter and be able to cultivate from all 4 seasons to complete our mission.
+Terminal: To keep track of your progress, see the panel on the wall behind the bed. Good luck!
 
 /* Resources
 *
@@ -40,17 +42,17 @@ Terminal: There are readings of possible hostile lifeforms in some areas. Use yo
 /* Summer core
 *
 */
-Terminal: Summer Core! woot~
+Terminal: Excellent, only 2 more seasons to go. Keep up the good work.
 
 /* Autumn core
 *
 */
-Terminal: Autumn Core! woot~
+Terminal: Only 1 more season left. Keep cultivating that land.
 
 /* Winter core
 *
 */
-Terminal: Winter Core! The set is complete! now we just need to harvest enough materials from all 4 seasons to complete our mission.
+Terminal: Winter Core! The set is complete! Now we just need to harvest enough materials from all 4 seasons to complete our mission, you can see your progress on the panel behind the bed.
 
 /* Insufficient materials
 *
@@ -60,4 +62,4 @@ Terminal: There is insufficient materials to withdraw at this time.
 /*
 *
 */
-Terminal: End Game
+Terminal: Congratulations, mission success! Quick, lets contact Earth with the good news!

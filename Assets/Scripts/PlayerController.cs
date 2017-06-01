@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public GameObject toolJoint;
     public AudioClip[] audioClips;
     public AudioSource audio;
+    public Terminal terminal;
 
 
     [Header("Movement")]
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
         animator.speed = 0.2f;
         equippedTool = 0;
         usingTool = false;
+        ((Interactable)terminal).interact();
     }
 
     private void Awake()
@@ -94,6 +96,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
             moveSpeed *= speedBoost;
 
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            ((Interactable)terminal).interact();
+        }
         updateBearing();
 
         switchTool();

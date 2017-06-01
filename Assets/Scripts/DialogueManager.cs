@@ -19,14 +19,14 @@ public class DialogueManager : MonoBehaviour {
     public void welcome()
     {
         dialogue.lineToStart = 4;
-        dialogue.lineToBreak = 8;
+        dialogue.lineToBreak = 9;
         dialogue.NewTalk();
     }
 
     public void insufficient()
     {
-        dialogue.lineToStart = 58;
-        dialogue.lineToBreak = 58;
+        dialogue.lineToStart = 60;
+        dialogue.lineToBreak = 60;
         dialogue.NewTalk();
     }
 
@@ -44,24 +44,38 @@ public class DialogueManager : MonoBehaviour {
         dialogue.NewTalk();
     }
 
-    public void firstWater()
+    public void firstHarvest()
     {
         dialogue.lineToStart = 29;
         dialogue.lineToBreak = 30;
         dialogue.NewTalk();
     }
 
-    public void firstHarvest()
+    public void summerCore()
     {
-        dialogue.lineToStart = 35;
-        dialogue.lineToBreak = 38;
+        dialogue.lineToStart = 45;
+        dialogue.lineToBreak = 45;
+        dialogue.NewTalk();
+    }
+
+    public void autumnCore()
+    {
+        dialogue.lineToStart = 50;
+        dialogue.lineToBreak = 50;
+        dialogue.NewTalk();
+    }
+
+    public void winterCore()
+    {
+        dialogue.lineToStart = 55;
+        dialogue.lineToBreak = 55;
         dialogue.NewTalk();
     }
 
     internal void endGame()
     {
-        dialogue.lineToStart = 63;
-        dialogue.lineToBreak = 63;
+        dialogue.lineToStart = 65;
+        dialogue.lineToBreak = 65;
         dialogue.NewTalk();
     }
 }

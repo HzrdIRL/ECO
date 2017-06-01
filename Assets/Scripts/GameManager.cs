@@ -41,9 +41,6 @@ public class GameManager : MonoBehaviour {
 			if (time >= 1440) {
 				cycleDay();
 			}
-			//if(day >= 10) {
-			//	GameOver();
-			//}
 		} else {
 			InitGame();
 		}
@@ -90,7 +87,6 @@ public class GameManager : MonoBehaviour {
         }
         if (dialogStage == (int)DialogueStages.ActivatedSummer)
         {
-            GameObject core = GameObject.FindGameObjectWithTag("AutumnCore");
             if (AutumnCore != null)
             {
                 AutumnCore.SetActive(true);
@@ -98,7 +94,6 @@ public class GameManager : MonoBehaviour {
         }
         if (dialogStage == (int)DialogueStages.ActivatedAutumn)
         {
-            GameObject core = GameObject.FindGameObjectWithTag("WinterCore");
             if (WinterCore != null)
             {
                 WinterCore.SetActive(true);

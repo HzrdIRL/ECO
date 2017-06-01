@@ -14,18 +14,19 @@ public class Progress : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //Progress Seasons
-        if (GameManager.instance.dialogStage >= 1)
+        if (GameManager.instance.dialogStage >= (int)DialogueStages.ActivatedSpring)
         {
             PanelSpring.SetActive(true);
-        } else if(GameManager.instance.dialogStage >= 5)
+        }
+        if(GameManager.instance.dialogStage >= (int)DialogueStages.ActivatedSummer)
         {
             PanelSummer.SetActive(true);
         }
-        else if (GameManager.instance.dialogStage >= 6)
+        if (GameManager.instance.dialogStage >= (int)DialogueStages.ActivatedAutumn)
         {
             PanelAutumn.SetActive(true);
         }
-        else if (GameManager.instance.dialogStage >= 7)
+        if (GameManager.instance.dialogStage >= (int)DialogueStages.ActivatedWinter)
         {
             PanelWinter.SetActive(true);
         }

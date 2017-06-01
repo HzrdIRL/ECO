@@ -8,9 +8,11 @@ public class Core : MonoBehaviour, Interactable  {
 
 	// Use this for initialization
 	void Start () {
-		this.GetComponent<SpriteRenderer> ().color = machine.GetComponent<Machine>().seasonColor;
-        this.GetComponentInChildren<Light>().color = this.GetComponent<SpriteRenderer>().color;
-        InvokeRepeating("glow", 0.0f, 0.03f);
+        //this.GetComponent<SpriteRenderer> ().color = machine.GetComponent<Machine>().seasonColor;
+        if (this.GetComponentInChildren<Light>() != null) {
+            this.GetComponentInChildren<Light>().color = this.GetComponent<SpriteRenderer>().color;
+            InvokeRepeating("glow", 0.0f, 0.03f);
+        }
     }
 
 	// Update is called once per frame

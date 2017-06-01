@@ -17,11 +17,23 @@ public class Terminal : MonoBehaviour, Interactable {
             GameManager.instance.dialogue.welcome();
         } else if(GameManager.instance.dialogStage == (int)DialogueStages.ActivatedSpring) {
             GameManager.instance.dialogue.firstCoreGot();
-        } else if (GameManager.instance.dialogStage == (int)DialogueStages.Planted) {
+        } else if (GameManager.instance.dialogStage == (int)DialogueStages.Planted || GameManager.instance.dialogStage == (int)DialogueStages.Watered) {
             GameManager.instance.dialogue.firstPlant();
         } else if (GameManager.instance.dialogStage == (int)DialogueStages.Harvested)
         {
             GameManager.instance.dialogue.firstHarvest();
+        }
+        else if (GameManager.instance.dialogStage == (int)DialogueStages.ActivatedSummer)
+        {
+            GameManager.instance.dialogue.summerCore();
+        }
+        else if (GameManager.instance.dialogStage == (int)DialogueStages.ActivatedAutumn)
+        {
+            GameManager.instance.dialogue.autumnCore();
+        }
+        else if (GameManager.instance.dialogStage == (int)DialogueStages.ActivatedWinter)
+        {
+            GameManager.instance.dialogue.winterCore();
         }
     }
 }
