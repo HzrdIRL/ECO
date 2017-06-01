@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         bioMatter = 10;
         waterLevel = 100;
         energyLevel = 100;
-        interactDistance = 1f;
+        interactDistance = 0.5f;
         watering = false;
         cores = new bool[4];
         animator = this.GetComponent<Animator>();
@@ -351,7 +351,7 @@ public class PlayerController : MonoBehaviour
     {
         Soil soilObject = null;
         BioMatterHub reclaimerObject = null;
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, faceDirection, interactDistance, interactableObjects);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(this.toolJoint.transform.position, faceDirection, interactDistance, interactableObjects);
         //Physics2D.Raycast(transform.position, faceDirection, interactDistance, interactableObjects);
         foreach (RaycastHit2D hit in hits)
         {
