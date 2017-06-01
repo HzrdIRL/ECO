@@ -66,7 +66,11 @@ public class Progress : MonoBehaviour {
         if (bioMatterHub.bioMatter >= 500)
         {
             ProgressBar5.SetActive(true);
-            GameManager.instance.dialogue.endGame();
+            if(GameManager.instance.dialogStage >= (int)DialogueStages.ActivatedWinter && !GameManager.instance.gameIsOver)
+            {
+                GameManager.instance.dialogue.endGame();
+                GameManager.instance.gameIsOver = true;
+            }
         }
         else
         {

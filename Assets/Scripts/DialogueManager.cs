@@ -47,7 +47,7 @@ public class DialogueManager : MonoBehaviour {
     public void firstHarvest()
     {
         dialogue.lineToStart = 29;
-        dialogue.lineToBreak = 30;
+        dialogue.lineToBreak = 32;
         dialogue.NewTalk();
     }
 
@@ -72,7 +72,7 @@ public class DialogueManager : MonoBehaviour {
         dialogue.NewTalk();
     }
 
-    internal void endGame()
+    public void endGame()
     {
         dialogue.lineToStart = 65;
         dialogue.lineToBreak = 65;

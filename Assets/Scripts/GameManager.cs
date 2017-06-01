@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
 	public static GameManager instance = null;
 	private int time;
 	private int day;
-    private bool gameIsOver;
+    public bool gameIsOver;
     public int dialogStage;
     public GameObject player;
     public GameObject bed;
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour {
 				cycleDay();
 			}
 		} else {
-			InitGame();
+			//InitGame();
 		}
 	}
 
@@ -64,6 +65,16 @@ public class GameManager : MonoBehaviour {
     public int getMinute()
     {
         return this.time%60;
+    }
+
+    public void EndGame()
+    {
+        Debug.Log("dialogue over");
+        if (this.dialogStage >= (int)DialogueStages.ActivatedWinter && GameObject.FindObjectOfType<BioMatterHub>().bioMatter >= 500)
+        {
+            SceneManager.LoadScene("EndGame");
+            this.GetComponent<AudioSource>().Stop();
+        }
     }
 
     public void cycleDay() {
@@ -103,7 +114,7 @@ public class GameManager : MonoBehaviour {
  
 	void GameOver() {
 		Debug.Log("Game Over!");
-		gameIsOver = true;
+		//gameIsOver = true;
 	}
 
 }
