@@ -1,48 +1,70 @@
+using System;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     [Header("Unity Refs")]
     public Rigidbody2D rb;
     public LayerMask interactableObjects;
-    public int bioMatter;
+    public int bioMatter; //should be private
+    public int waterLevel;
+    public int energyLevel;
+    public GameObject plantBlueprint;
+    public static bool[] cores;
+    public GameObject toolJoint;
+    public AudioClip[] audioClips;
+    public AudioSource audio;
+    public Terminal terminal;
+
 
     [Header("Movement")]
-
     public float moveSpeed;
     public float speedBoost;
     private float baseSpeed;
     private Vector2 move;
     private Vector2 faceDirection;
-    public bool interacting;
-    public bool watering;
-    public bool harvesting;
-    public static bool[] cores;
-    public bool usingTool;
-    private Animator animator;
-    public int equippedTool;
-    public GameObject plantBlueprint;
 
-    private enum Tools { Hydrater, Harvester, Cultivator };
+    private bool interacting;
+    private bool watering;
+    private bool harvesting;
+
+    private bool usingTool;
+    private float toolTimer;
+    public int equippedTool;
+    private LineRenderer line;
+
+    public int getEnergyLevel()
+    {
+        return energyLevel;
+    }
+
+    private Animator animator;
+
+    public enum Tools { Hydrater, Harvester, Cultivator };
 
     [Header("Testing")]
-    private float interactDistance;
+    public float interactDistance;
 
 
     // Use this for initialization
     void Start()
     {
-        
+        line = gameObject.GetComponentInChildren<LineRenderer>();
+        line.enabled = false;
         faceDirection = Vector2.down;
         interacting = false;
-        bioMatter = 5;
-        interactDistance = 1f;
+        bioMatter = 10;
+        waterLevel = 100;
+        energyLevel = 100;
+        interactDistance = 0.5f;
         watering = false;
         cores = new bool[4];
         animator = this.GetComponent<Animator>();
         animator.speed = 0.2f;
         equippedTool = 0;
         usingTool = false;
+        ((Interactable)terminal).interact();
     }
 
     private void Awake()
@@ -52,6 +74,8 @@ public class PlayerController : MonoBehaviour {
 
     void Update()
     {
+
+
         //Get player interaction key press
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -72,9 +96,13 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.LeftShift))
             moveSpeed *= speedBoost;
 
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            ((Interactable)terminal).interact();
+        }
         updateBearing();
-        
-        getEquippedTool();
+
+        switchTool();
     }
 
 
@@ -88,11 +116,16 @@ public class PlayerController : MonoBehaviour {
             interact();
         }
 
+        if ((Time.time - toolTimer) >= 0.1f)
+        {
+            line.enabled = false;
+        }
+
         // Use the equipped tool
         if (usingTool)
         {
             usingTool = false;
-            if(equippedTool == (int)Tools.Hydrater)
+            if (equippedTool == (int)Tools.Hydrater)
                 water();
 
             if (equippedTool == (int)Tools.Harvester)
@@ -101,7 +134,7 @@ public class PlayerController : MonoBehaviour {
             if (equippedTool == (int)Tools.Cultivator)
                 cultivate();
         }
-         
+
         //Update the players facing direction, for animation purposes
         updateBearing();
 
@@ -110,29 +143,52 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    public void increaseBiomatter(int value)
+    public int getWaterLevel()
+    {
+        return waterLevel;
+    }
+
+    public void setWaterLevel(int value)
+    {
+        waterLevel += value;
+    }
+
+    public void setBioMatterLevel(int value)
     {
         bioMatter += value;
+    }
+
+    public int getBioMatterLevel()
+    {
+        return bioMatter;
+    }
+
+    public string getEquippedTool()
+    {
+        return ((Tools)equippedTool).ToString();
     }
 
     /*
      * Switch tools: Watering, Harvesting, Planting
      */
-     void getEquippedTool()
+    void switchTool()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             equippedTool = (int)Tools.Hydrater;
+            audio.clip = audioClips[0];
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             equippedTool = (int)Tools.Harvester;
+            audio.clip = audioClips[1];
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             equippedTool = (int)Tools.Cultivator;
+            audio.clip = audioClips[2];
         }
     }
 
@@ -141,37 +197,24 @@ public class PlayerController : MonoBehaviour {
      */
     void updateBearing()
     {
-        if (Input.GetKey(KeyCode.D) && !(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.W)))
+        if (Input.GetAxisRaw("Horizontal") > 0.5f || Input.GetAxisRaw("Horizontal") < -0.5f)
         {
-            faceDirection = Vector2.right;
-            if(Input.GetKeyDown(KeyCode.D))
-                animator.CrossFade("Astro_Walk_East", 0.0f);
-            animator.SetInteger("Direction", 3);
+            animator.SetBool("IsWalking", true);
+            animator.SetFloat("MoveX", Input.GetAxisRaw("Horizontal"));
+            animator.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
+            faceDirection = new Vector2(Input.GetAxisRaw("Horizontal"), 0f);
         }
 
-        if (Input.GetKey(KeyCode.A) && !(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)))
+        if (Input.GetAxisRaw("Vertical") > 0.5f || Input.GetAxisRaw("Vertical") < -0.5f)
         {
-            faceDirection = Vector2.left;
-            if (Input.GetKeyDown(KeyCode.A))
-                animator.CrossFade("Astro_Walk_West", 0.0f);
-            animator.SetInteger("Direction", 1);
+            animator.SetBool("IsWalking", true);
+            animator.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
+            animator.SetFloat("MoveX", Input.GetAxisRaw("Horizontal"));
+            faceDirection = new Vector2(0f, Input.GetAxisRaw("Vertical"));
         }
 
-        if (Input.GetKey(KeyCode.W) && !(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S)))
-        {
-            faceDirection = Vector2.up;
-            if (Input.GetKeyDown(KeyCode.W))
-                animator.CrossFade("Astro_Walk_North", 0.0f);
-            animator.SetInteger("Direction", 2);
-        }
-
-        if (Input.GetKey(KeyCode.S) && !(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)))
-        {
-            faceDirection = Vector2.down;
-            if (Input.GetKeyDown(KeyCode.S))
-                animator.CrossFade("Astro_Walk_South", 0.0f);
-            animator.SetInteger("Direction", 0);
-        }
+        animator.SetFloat("LastMoveX", faceDirection.x);
+        animator.SetFloat("LastMoveY", faceDirection.y);
     }
 
     /*Get the input axis from the controller
@@ -181,22 +224,16 @@ public class PlayerController : MonoBehaviour {
      */
     void moveCharacter()
     {
-        Vector2 move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        Vector2 move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         move = move.normalized * Time.deltaTime * moveSpeed;
 
-        if (move.x != 0 || move.y != 0)
-        {
-            animator.SetBool("IsWalking", true);
-            animator.enabled = true;
-        }
-        else
+        if (move.x == 0 && move.y == 0)
         {
             animator.SetBool("IsWalking", false);
-            animator.enabled = false;
         }
 
-;        rb.velocity = move;
+        rb.velocity = move;
     }
 
     /*
@@ -207,9 +244,25 @@ public class PlayerController : MonoBehaviour {
     {
         interacting = false;
         Interactable interactableObject = null;
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
-        if((interactableObject = hit.collider.GetComponentInChildren<Interactable>()) != null)
-            interactableObject.interact();
+        RaycastHit2D[] hits = Physics2D.RaycastAll(this.toolJoint.transform.position, faceDirection, interactDistance, interactableObjects);
+        foreach (RaycastHit2D hit in hits)
+        {
+            if ((interactableObject = hit.collider.GetComponentInChildren<Interactable>()) != null)
+            {
+                interactableObject.interact();
+            }
+        }
+    }
+
+    // Draw a line to represent the direction/distance of the equipped tool, when used.
+    void visualiseTool(Color col)
+    {
+        audio.Play();
+        line.enabled = true;
+        line.SetPosition(1, faceDirection * interactDistance);
+        line.startColor = col;
+        line.endColor = col;
+        toolTimer = Time.time;
     }
 
     /*
@@ -219,9 +272,34 @@ public class PlayerController : MonoBehaviour {
     void water()
     {
         Soil soil = null;
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
-        if ((soil = hit.collider.GetComponentInChildren<Soil>()) != null)
-            soil.water();
+        RaycastHit2D[] hits = Physics2D.RaycastAll(this.toolJoint.transform.position, faceDirection, interactDistance, interactableObjects);
+
+        foreach (RaycastHit2D hit in hits)
+        {
+            if ((soil = hit.collider.GetComponentInChildren<Soil>()) != null
+                && !soil.watered
+                && soil.activated
+                && soil.plantedObject != null && getWaterLevel() >= 5)
+            {
+                if ((int)GameManager.instance.dialogStage == (int)DialogueStages.Planted)
+                {
+                    GameManager.instance.dialogStage = (int)DialogueStages.Watered;
+                }
+                visualiseTool(Color.blue);
+                soil.water();
+                setWaterLevel(-5);
+                //useEnergy(5);
+            }
+        }
+    }
+
+    private void useEnergy(int v)
+    {
+        energyLevel -= 5;
+        if (energyLevel <= 0)
+        {
+            GameManager.instance.cycleDay();
+        }
     }
 
     /*
@@ -229,24 +307,82 @@ public class PlayerController : MonoBehaviour {
      */
     void harvest()
     {
-        Harvestable harvestableObject = null;
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
-        if ((harvestableObject = hit.collider.GetComponentInChildren<Plant>()) != null)
+        GameObject harvestableObject = null;
+        RaycastHit2D[] hits = Physics2D.RaycastAll(this.toolJoint.transform.position, faceDirection, interactDistance, interactableObjects);
+
+        foreach (RaycastHit2D hit in hits)
         {
-            harvestableObject.harvest();
-            bioMatter += ((Plant)harvestableObject).value;
+            if ((harvestableObject = hit.collider.gameObject) != null)
+            {
+                Debug.Log("hit");
+                if ((harvestableObject.GetComponentInChildren<Harvestable>()).harvestable())
+                {
+                    Debug.Log("harvestable");
+                    visualiseTool(Color.magenta);
+                    Plant plant;
+                    Ice ice;
+                    Minerals minerals;
+                    if ((plant = harvestableObject.GetComponentInChildren<Plant>()) != null && this.bioMatter <= 90)
+                    {
+                        if ((int)GameManager.instance.dialogStage == (int)DialogueStages.Watered)
+                        {
+                            GameManager.instance.dialogStage = (int)DialogueStages.Harvested;
+                        }
+                        setBioMatterLevel(((Harvestable)plant).harvest());
+                        Debug.Log("Plant harvested");
+                    }
+					else if ((ice = harvestableObject.GetComponentInChildren<Ice>()) != null)
+                    {
+                        setWaterLevel(((Harvestable)ice).harvest());
+                        Debug.Log("Ice harvested");
+                    }
+					else if ((minerals = harvestableObject.GetComponentInChildren<Minerals>()) != null)
+                    {
+                        energyLevel += ((Harvestable)minerals).harvest();
+                        Debug.Log("Mineral harvested");
+                    } else
+                    {
+                        Debug.Log("not harvested");
+                    }
+                }
+            } else
+            {
+                Debug.Log("not harvested");
+            }
         }
-            
+
     }
 
     void cultivate()
     {
         Soil soilObject = null;
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, faceDirection, interactDistance, interactableObjects);
-        if (((soilObject = hit.collider.GetComponentInChildren<Soil>()) != null) && bioMatter >= plantBlueprint.GetComponent<Plant>().cost)
+        BioMatterHub reclaimerObject = null;
+        RaycastHit2D[] hits = Physics2D.RaycastAll(this.toolJoint.transform.position, faceDirection, interactDistance, interactableObjects);
+        //Physics2D.Raycast(transform.position, faceDirection, interactDistance, interactableObjects);
+        foreach (RaycastHit2D hit in hits)
         {
-            soilObject.cultivate(plantBlueprint);
-            bioMatter -= plantBlueprint.GetComponent<Plant>().cost;
+            if (((soilObject = hit.collider.GetComponentInChildren<Soil>()) != null)
+            && bioMatter >= plantBlueprint.GetComponent<Plant>().cost
+            && soilObject.activated
+            && soilObject.plantedObject == null)
+            {
+                Debug.Log("cultivating");
+                if ((int)GameManager.instance.dialogStage < (int)DialogueStages.Planted)
+                {
+                    GameManager.instance.dialogStage = (int)DialogueStages.Planted;
+                }
+                visualiseTool(Color.green);
+                soilObject.cultivate(plantBlueprint);
+                setBioMatterLevel(-plantBlueprint.GetComponent<Plant>().cost);
+                useEnergy(5);
+            } else if((reclaimerObject = hit.collider.GetComponentInChildren<BioMatterHub>()) != null
+                && bioMatter >= 10) {
+                reclaimerObject.deposit(10);
+                this.bioMatter -= 10;
+            } else {
+                Debug.Log("failed");
+            }
         }
+
     }
 }

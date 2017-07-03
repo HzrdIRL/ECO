@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
+public abstract class Plant : MonoBehaviour, Interactable, Harvestable
+{
     public int age;
     public bool fruiting;
     public bool wilted;
@@ -9,43 +10,56 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
     public int cost;
     public int daysSinceHarvest;
     public SpriteRenderer sprite;
+    public Sprite spriteSeed;
+    public Sprite spriteSapling;
+    public Sprite spriteMatured;
     public int season;
     //public Sprite[] images = new Sprite[4];
 
-    public int[] stageLengths = {0,1,2};
+    public int[] stageLengths = { 0, 1, 2 };
 
-	// Use this for initialization
-	void Start () {
-		wilted = false;
-		fruiting = false;
+    // Use this for initialization
+    void Start()
+    {
+        wilted = false;
+        fruiting = false;
         age = 0;
         daysSinceHarvest = 0;
 
     }
 
-	public void kill() {
-		Destroy(this.gameObject);
-	}
+    public void kill()
+    {
+        Destroy(this.gameObject);
+    }
 
-	void Update() {
+    void Update()
+    {
 
-	}
+    }
 
     /*
     * Harvest plant, absorbing its value as biomatter
     * and resetting its fruiting values
     */
-    void Harvestable.harvest()
+    int Harvestable.harvest()
+    {
+        daysSinceHarvest = 0;
+        fruiting = false;
+        sprite.sprite = spriteSapling;
+        return this.value;
+    }
+
+    bool Harvestable.harvestable()
     {
         if (fruiting)
         {
-            daysSinceHarvest = 0;
-            fruiting = false;
-            sprite.color = Color.blue;
+            return true;
         }
         else
         {
             Debug.Log("Not fruiting yet");
+            return false;
         }
     }
 
@@ -65,6 +79,7 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
         {
             age++;
             wilted = false;
+            sprite.color = Color.white;
         }
         else if (wilted)
         {
@@ -73,7 +88,7 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
         else
         {
             wilted = true;
-            sprite.color = Color.black;
+            sprite.color = Color.grey;
         }
 
         if (!wilted)
@@ -89,18 +104,16 @@ public abstract class Plant : MonoBehaviour, Interactable, Harvestable {
 
                 if (fruiting)
                 {
-                    sprite.color = Color.red;
-                } else {
-                    sprite.color = Color.blue;
+                    sprite.sprite = spriteMatured;
+                }
+                else
+                {
+                    sprite.sprite = spriteSapling;
                 }
             }
             else if (age >= stageLengths[(int)Stages.Sprouted])
             {
-                sprite.color = Color.green;
-            }
-            else if (age >= stageLengths[(int)Stages.Planted])
-            {
-                sprite.color = Color.grey;
+                sprite.sprite = spriteSapling;
             }
         }
     }
